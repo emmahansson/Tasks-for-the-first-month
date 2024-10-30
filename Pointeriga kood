@@ -1,0 +1,94 @@
+//1.Read from keyboard   A( m×n) matrix of integers.
+2. Find the average (arithmetic mean) value of each row and output it as a sorted vector (array)   S  with size m.
+m>4 and n>3.
+
+Arithmetic mean is defined as ∑_(i=1)^n▒a_i /n.
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_ROWS 15
+#define MAX_COLS 15
+
+// Prototypes
+void input_matrix(int matrix[MAX_ROWS][MAX_COLS], int *m, int *n);
+void calculate_row_averages(int matrix[MAX_ROWS][MAX_COLS], float averages[MAX_ROWS], int m, int n);
+void sort_array(float array[MAX_ROWS], int size);
+void output_array(float array[MAX_ROWS], int size);
+
+int main(void) {
+    int matrix[MAX_ROWS][MAX_COLS];
+    float averages[MAX_ROWS];
+    int m, n;
+
+    // Input the matrix and its dimensions
+    input_matrix(matrix, &m, &n);
+
+    // Calculate row averages
+    calculate_row_averages(matrix, averages, m, n);
+
+    // Sort the averages
+    sort_array(averages, m);
+
+    // Output the sorted averages
+    output_array(averages, m);
+
+    return 0;
+}
+
+// Function to input matrix and its dimensions
+void input_matrix(int matrix[MAX_ROWS][MAX_COLS], int *m, int *n) {
+    // Ensure 4 < m <= 15
+    do {
+        printf("Enter number of rows (5 <= m <= 15): ");
+        scanf("%d", m);
+    } while (*m <= 4 || *m > MAX_ROWS);
+
+    // Ensure 3 < n <= 15
+    do {
+        printf("Enter number of columns (4 <= n <= 15): ");
+        scanf("%d", n);
+    } while (*n <= 3 || *n > MAX_COLS);
+
+    printf("Enter the elements of the matrix (%d x %d):\n", *m, *n);
+    for (int i = 0; i < *m; i++) {
+        for (int j = 0; j < *n; j++) {
+            printf("Element [%d][%d]: ", i, j);
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+}
+
+// Function to calculate row averages
+void calculate_row_averages(int matrix[MAX_ROWS][MAX_COLS], float averages[MAX_ROWS], int m, int n) {
+    for (int i = 0; i < m; i++) {
+        int sum = 0;
+        for (int j = 0; j < n; j++) {
+            sum += matrix[i][j];
+        }
+        averages[i] = (float)sum / n; // Calculate average
+    }
+}
+
+// Function to sort array
+void sort_array(float array[MAX_ROWS], int size) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (array[j] > array[j + 1]) { // Sort in ascending order
+                float temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
+        }
+    }
+}
+
+// Function to output the sorted array
+void output_array(float array[MAX_ROWS], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%.2f ", array[i]); // Output with 2 decimal places
+    }
+    printf("\n");
+}
